@@ -24,6 +24,8 @@ class DisciplineController extends Controller
     {
         $Discipline = Discipline::all();
 
+        
+
         return json_encode($Discipline);
 
     }
