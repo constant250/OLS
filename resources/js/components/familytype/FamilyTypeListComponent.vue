@@ -1,20 +1,15 @@
 <template>
     <div class="app-modal">
-        <create-project 
-        v-bind:form-settings='makeForm' 
-        v-bind:form-values='getValues'
-        v-bind:modal-title='"Add Project"'
-        v-bind:save-form='"/project"'>
-        </create-project>
+        <create-familytype/>
         <div class="card shadow mb-4">
             <div class="card-header py-3">
                 <h6 class="m-0 font-weight-bold text-info">Equipment List</h6>
             </div>
             <div class="card-body">
-                <v-client-table :data="projectList" :columns="columns" :options="options" ref="courseTable">
+                <v-client-table :data="familytypeList" :columns="columns" :options="options" ref="courseTable">
                         <div slot="afterLimit" class="ml-2">
                             <div class="btn-group">
-                                <a href="javascript:void(0)"  @click="showCreateProject" class="btn btn-info" slot="afterLimit"><i class="fas fa-plus"></i> Add Project</a>
+                                <a href="javascript:void(0)"  @click="showCreatefamilytype" class="btn btn-info" slot="afterLimit"><i class="fas fa-plus"></i> Add familytype</a>
                                 <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     Export to
                                     <span class="sr-only">Toggle Dropdown</span>
@@ -38,7 +33,7 @@
 
 <script>
 
-    import CreateProject from './../globals/form/createModalComponent.vue'
+    import Createfamilytype from './createfamilytypeComponent.vue'
 
     export default {
         name: 'app-modal',
@@ -46,20 +41,20 @@
         //     console.log('Component mounted.')
         // }
         components: {
-            CreateProject
+            Createfamilytype
         },
         data() {
             return {
-                projectList : [],
-                project : {},
-                project_id : '',
+                familytypeList : [],
+                familytype : {},
+                familytype_id : '',
                 pagination : {},
                 edit: false,
-                searchProjectName: '',
-                url: 'project/show/',
+                searchfamilytypeName: '',
+                url: 'familytype/show/',
 
                 // Vue-Tables-2 Syntax
-                columns: ['id', 'name', 'project_type.name', 'user.party.name', 'actions'],
+                columns: ['id', 'name', 'familytype_type.name', 'user.party.name', 'actions'],
                 options: {
                     initialPage:1,
                     perPage:10,
@@ -67,12 +62,12 @@
                     sortIcon: { base:'fas', up:'fa-sort-amount-up', down:'fa-sort-amount-down', is:'fa-sort' },
                     headings: {
                         id: '#',
-                        name: 'Project Name',
-                        'project_type.name': 'Project Type',
+                        name: 'familytype Name',
+                        'familytype_type.name': 'familytype Type',
                         'user.party.name': 'User',
                         actions: 'Actions'
                     },
-                    sortable: ['name', 'project_type.name', 'user.party.name'],
+                    sortable: ['name', 'familytype_type.name', 'user.party.name'],
                     rowClassCallback(row) {
                         return row.id = row.id;
                     },
@@ -82,51 +77,34 @@
                         filterPlaceholder: "Search keywords",
                     }
                 },
-                getValues : {},
-                makeForm : [{
-                    FormTitle : 'Add Project',
-                    FormBody : [
-                        {
-                            type : 'text',
-                            lable : 'Project Name',
-                            name : 'name',
-                        },
-                        {
-                            type : 'select',
-                            lable : 'Project Type',
-                            name : 'project_type_id',
-                            items :window.project_types,
-                        },                   
-                    ]
-                }],
 
             };
         },
         created() {
-            this.fetchList();
+            this.fetchfamilytype();
         },
         methods: {
-            // searchProject() {
+            // searchfamilytype() {
             //     let vm = this;
-            //     console.log(this.searchProjectName);
-            //     let search = (this.searchProjectName ? this.searchProjectName : '');
+            //     console.log(this.searchfamilytypeName);
+            //     let search = (this.searchfamilytypeName ? this.searchfamilytypeName : '');
 
-            //     fetch('/project/list/search/'+search)
+            //     fetch('/familytype/list/search/'+search)
             //         .then(res => res.json())
             //         .then(res => {
-            //             this.projectList = res.data;
+            //             this.familytypeList = res.data;
             //             vm.makePagination(res);
             //         })
             //         .catch(err => console.log(err));
             // },
-            fetchList(page_url) {
+            fetchfamilytype(page_url) {
                 let vm = this;
                 page_url = page_url || '/proj/list'
                 fetch(page_url)
                     .then(res => res.json())
                     .then(res => {
                         console.log(res);
-                        this.projectList = res;
+                        this.familytypeList = res;
                         vm.makePagination(res);
                     })
                     .catch(err => console.log(err));
@@ -140,16 +118,22 @@
                 }
                 this.pagination = pagination
             },
-            showCreateProject () {
-                this.$modal.show('size-modal')
+            showCreatefamilytype () {
+                this.$modal.show('size-modal',{
+                    edit : false,
+                    id : '',
+                    course_id : '',
+                    name : '',
+                    code : '',
+                })
             },
             equipDetail (id) {
-                window.location.href = '/project/'+id;
+                window.location.href = '/familytype/'+id;
             },
             removeEquip(id) {
                 let vm = this;
                 swal.fire({
-                    title: 'Are you sure delete project?',
+                    title: 'Are you sure delete familytype?',
                     text: " this won't be able to revert!",
                     icon: 'warning',
                     showCancelButton: true,
@@ -158,7 +142,7 @@
                     confirmButtonText: 'Yes, delete it!'
                 }).then((result) => {
                     if (result.value) {
-                        axios.delete('/project/'+id)
+                        axios.delete('/familytype/'+id)
                         .then(function(res){
                         // vm.files = res.data;
                         if(res.data.status == 'success'){
@@ -167,7 +151,7 @@
                                 'Equipment has been deleted.',
                                 'success'
                             )
-                            vm.fetchList();
+                            vm.fetchfamilytype();
                         }
                         })
                         .catch(function(error){
