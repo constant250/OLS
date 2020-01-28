@@ -59,6 +59,9 @@ Vue.component('multiselect', Multiselect);
 require('./jim.js');
 
 require('./kiz.js');
+// jim components
+require('./doi.js');
+
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application

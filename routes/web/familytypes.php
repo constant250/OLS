@@ -16,7 +16,7 @@ use Illuminate\Http\Request;
 // Resource
 Route::resource('family-type', 'FamilyType\FamilyTypeController');
 
-// Equipment List
-Route::get('/fl/list', 'FamilyType\FamilyTypeController@lists')->name('family-type.list');
+// Family Type List
+Route::get('/ft/list', 'FamilyType\FamilyTypeController@lists')->name('family-type.list');
 // Equipment List Search
 // Route::get('/project/list/{search}', 'Project\ProjectController@lists');

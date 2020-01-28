@@ -19,6 +19,7 @@ class FamilyTypeController extends Controller
         return view('family-types.index');
         //
     }
+    
 
     /**
      * Show the form for creating a new resource.
