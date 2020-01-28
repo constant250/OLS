@@ -1,168 +1,85 @@
 <template>
-    <div class="app-modal">
-        <create-project/>
-        <div class="card shadow mb-4">
-            <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-info">Equipment List</h6>
-            </div>
-            <div class="card-body">
-                <v-client-table :data="CategoryList" :columns="columns" :options="options" ref="courseTable">
-                        <div slot="afterLimit" class="ml-2">
+     <div class="app-modal">
+
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-info">Category list</h6>
+                </div>
+                <div class="card-body">
+                    <v-client-table :data="categories" :columns="columns" :options="options">
+                        <div slot= "afterLimit" class="ml-2">
                             <div class="btn-group">
-                                <a href="javascript:void(0)"  @click="showCreateCategory" class="btn btn-info" slot="afterLimit"><i class="fas fa-plus"></i> Add Category</a>
-                                <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    Export to
-                                    <span class="sr-only">Toggle Dropdown</span>
-                                </button>
-                                <div class="dropdown-menu dropdown-menu-right">
-                                    <a class="dropdown-item" href="#"><i class="far fa-file-pdf text-danger"></i>&nbsp; PDF</a>
-                                    <a class="dropdown-item" href="#"><i class="far fa-file-excel text-success"></i>&nbsp; Excel (CSV)</a>
-                                </div>
+                                <a class="btn btn-info" slot="afterLimit">Add Category</a>
                             </div>
                         </div>
                         <div class="btn-group" slot="actions" slot-scope="{row}">
-                            <a href="javascript:void(0)" class="btn btn-primary btn-sm" @click="equipDetail(row.id)"> <i class="fas fa-edit"> </i></a>
-                            <a href="javascript:void(0)" class="btn btn-danger btn-sm text-white" @click="removeEquip(row.id)"> <i class="fas fa-trash"> </i></a>
+                            <a class="btn btn-primary btn-sm" @click="categoryDetail(row.id)"">Edit</a>
+                            <a class="btn btn-danger btn-sm text-white" @click="categoryDelete(row.id)">Delete</a>
                         </div>
-                </v-client-table>
+                    </v-client-table>
+                </div>
             </div>
-        </div>
     </div>
 </template>
 
 
 <script>
 
-    import CreateProject from './createProjectComponent.vue'
-
     export default {
-        name: 'app-modal',
-        // mounted() {
-        //     console.log('Component mounted.')
-        // }
-        components: {
-            CreateProject
-        },
+        
+        name:'app-modal',
+        components: {},
         data() {
             return {
-                projectList : [],
-                project : {},
-                project_id : '',
-                pagination : {},
-                edit: false,
-                searchProjectName: '',
-                url: 'project/show/',
+                categories: [],
 
-                // Vue-Tables-2 Syntax
-                columns: ['id', 'name', 'project_type.name', 'user.party.name', 'actions'],
+                //for table
+                columns:['id', 'name', 'action'],
                 options: {
                     initialPage:1,
                     perPage:10,
                     highlightMatches:true,
-                    sortIcon: { base:'fas', up:'fa-sort-amount-up', down:'fa-sort-amount-down', is:'fa-sort' },
+                    sortIcon: {base:'fas', up:'fa-sort-amount-up', down:'fa-sort-amount-dow', is:'fa-sort'},
                     headings: {
                         id: '#',
-                        name: 'Project Name',
-                        'project_type.name': 'Project Type',
-                        'user.party.name': 'User',
-                        actions: 'Actions'
+                        name: 'Category',
+                        action: 'Actions'
                     },
-                    sortable: ['name', 'project_type.name', 'user.party.name'],
-                    rowClassCallback(row) {
+                    sortable:['name'],
+                    rowClassCallback(row){
                         return row.id = row.id;
                     },
-                    columnClasses: {id: 'class-is'},
-                    texts: {
-                        // filter: "Search:",
-                        filterPlaceholder: "Search keywords",
+                    columnClasses : {id: 'class-is'},
+                    texts:{
+                        filterPlaceholder: 'Search Keywords'
                     }
-                },
+                }
 
-            };
+
+
+            }
         },
         created() {
-            this.fetchProject();
+            this.fetchList();
         },
         methods: {
-            // searchProject() {
-            //     let vm = this;
-            //     console.log(this.searchProjectName);
-            //     let search = (this.searchProjectName ? this.searchProjectName : '');
+            fetchList() {
+                let vm = this;
 
-            //     fetch('/project/list/search/'+search)
-            //         .then(res => res.json())
-            //         .then(res => {
-            //             this.projectList = res.data;
-            //             vm.makePagination(res);
-            //         })
-            //         .catch(err => console.log(err));
-            // },
-            fetchProject(page_url) {
-                let vm = this;
-                page_url = page_url || '/proj/list'
-                fetch(page_url)
-                    .then(res => res.json())
-                    .then(res => {
-                        console.log(res);
-                        this.projectList = res;
-                        vm.makePagination(res);
-                    })
-                    .catch(err => console.log(err));
-            },
-            makePagination(meta){
-                let pagination = {
-                    current_page: meta.current_page,
-                    last_page: meta.last_page,
-                    next_page_url: meta.next_page_url,
-                    prev_page_url: meta.prev_page_url
-                }
-                this.pagination = pagination
-            },
-            showCreateProject () {
-                this.$modal.show('size-modal',{
-                    edit : false,
-                    id : '',
-                    course_id : '',
-                    name : '',
-                    code : '',
+                axios.get('/cat/list')
+                .then(function (r) {
+                    console.log(r.data);
+                    vm.categories = r.data;
+                    console.log(vm.categories);
                 })
-            },
-            equipDetail (id) {
-                window.location.href = '/project/'+id;
-            },
-            removeEquip(id) {
-                let vm = this;
-                swal.fire({
-                    title: 'Are you sure delete project?',
-                    text: " this won't be able to revert!",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Yes, delete it!'
-                }).then((result) => {
-                    if (result.value) {
-                        axios.delete('/project/'+id)
-                        .then(function(res){
-                        // vm.files = res.data;
-                        if(res.data.status == 'success'){
-                            swal.fire(
-                                'Deleted!',
-                                'Equipment has been deleted.',
-                                'success'
-                            )
-                            vm.fetchProject();
-                        }
-                        })
-                        .catch(function(error){
-                        });
-                    }
-                });
+                .catch(function (error) {
+                    console.log(error);
+                })
+
             }
-  
-            
         }
     }
+
 </script>
 
 <style>

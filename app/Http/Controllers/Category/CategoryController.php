@@ -24,8 +24,6 @@ class CategoryController extends Controller
     {
         $category = Category::all();
 
-
-        // dd($project);
         return json_encode($category);
     }
 
