@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\SubDiscipline;
+namespace App\Http\Controllers\Family;
 
 use App\Http\Controllers\Controller;
+use App\Models\Family;
 use Illuminate\Http\Request;
-use App\Models\SubDiscipline;
 
-class SubDisciplineController extends Controller
+class FamilyController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,15 +15,17 @@ class SubDisciplineController extends Controller
      */
     public function index()
     {
-        return view ('sub-disciplines.index');
+        //
+        return view('family.index');
     }
 
     public function lists()
     {
-        $subdiscipline = SubDiscipline::all();
-
-        return json_encode($subdiscipline);
+        $families = Family::all();
+        // dd($families);
+        return json_encode($families);
     }
+
     /**
      * Show the form for creating a new resource.
      *
