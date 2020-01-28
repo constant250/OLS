@@ -21,7 +21,7 @@ class SubDisciplineController extends Controller
     public function lists()
     {
         $subdiscipline = SubDiscipline::all();
-       
+
         return json_encode($subdiscipline);
     }
     /**
