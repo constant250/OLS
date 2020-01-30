@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Category;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use DB;
 
 class CategoryController extends Controller
 {
@@ -15,9 +16,9 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        return view('category.index');
 
         //
+        return view('category.index');
     }
 
     public function lists()
@@ -45,8 +46,29 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
-    }
+try {
+    // start of db transaction
+    DB::beginTransaction();
+
+    $category = new category;
+    $category->name = $request->inputs['name'];
+    $category->user()->associate(\Auth::user());
+    $category->save();
+
+    DB::commit();
+
+    return ['status' => 'success'];
+
+} catch (\Exception $e) {
+    //  rollback db transactions
+    DB::rollback();
+
+    // return to previous page with errors
+    return json_encode(['message' => $e->getMessage(), 'status' => 'error']);
+}
+
+       
+}
 
     /**
      * Display the specified resource.
