@@ -5,6 +5,7 @@ namespace App\Http\Controllers\SubDiscipline;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\SubDiscipline;
+use DB;
 
 class SubDisciplineController extends Controller
 {
@@ -42,7 +43,26 @@ class SubDisciplineController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        try{
+            // start db transaction
+            DB::beginTransaction();
+
+            $subdiscipline = new SubDiscipline;
+            $subdiscipline->name = $request->inputs['name'];
+            $subdiscipline->user()->associate(\Auth::user());
+            $subdiscipline->save();
+
+            DB::commit();
+
+            return ['status' => 'success'];
+
+        } catch (\Exception $e) {
+            // rollback db transaction
+            DB::rollBack();
+
+            // return to previous page with errors
+            return json_encode(['message' => $e->getMessage(), 'status' => 'error']);
+        }
     }
 
     /**

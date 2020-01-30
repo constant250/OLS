@@ -1,6 +1,13 @@
 <template>
      <div class="app-modal">
+        <create-category
+        v-bind:form-settings='makeForm'
+        v-bind:form-values='getValues'
+        v-bind:save-form='"/category"'
+        v-bind:modal-title='"Add Category"'
+        v-bind:back-route='"/category"'
 
+        ></create-category>
             <div class="card shadow mb-4">
                 <div class="card-header py-3">
                     <h6 class="m-0 font-weight-bold text-info">Category list</h6>
@@ -9,11 +16,11 @@
                     <v-client-table :data="categories" :columns="columns" :options="options">
                         <div slot= "afterLimit" class="ml-2">
                             <div class="btn-group">
-                                <a class="btn btn-info" slot="afterLimit">Add Category</a>
+                                <a class="btn btn-info text-white" @click="showCreateCategory" slot="afterLimit">Add Category</a>
                             </div>
                         </div>
                         <div class="btn-group" slot="actions" slot-scope="{row}">
-                            <a class="btn btn-primary btn-sm" @click="categoryDetail(row.id)"">Edit</a>
+                            <a class="btn btn-primary btn-sm" @click=categoryDetail(row.id)>Edit</a>
                             <a class="btn btn-danger btn-sm text-white" @click="categoryDelete(row.id)">Delete</a>
                         </div>
                     </v-client-table>
@@ -25,12 +32,41 @@
 
 <script>
 
+    import CreateCategory from './../globals/form/createModalComponent.vue'
+
+
+
     export default {
         
         name:'app-modal',
-        components: {},
+        components: {
+            CreateCategory
+        },
         data() {
             return {
+
+                // for create modal
+                makeForm: [{
+
+                FormBody : [
+                {
+                        type: 'text',
+                        lable: 'Category Name',
+                        name: 'name'
+
+
+                }
+                   
+
+                ]
+
+                }
+                     
+                ],
+
+                getValues:{},
+
+                //list
                 categories: [],
 
                 //for table
@@ -76,6 +112,11 @@
                     console.log(error);
                 })
 
+            },
+
+            showCreateCategory() {
+                console.log(this.makeForm);
+                this.$modal.show('size-modal')
             }
         }
     }
