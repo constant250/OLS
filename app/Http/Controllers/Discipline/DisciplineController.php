@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Model\Discipline as ModelDiscipline;
 use Illuminate\Http\Request;
 use App\Models\Discipline;
+use DB;
 
 class DisciplineController extends Controller
 {
@@ -48,6 +49,24 @@ class DisciplineController extends Controller
     public function store(Request $request)
     {
         //
+        try {
+            DB::beginTransaction();
+
+            $Discipline = new Discipline;
+            $Discipline->name=$request->inputs['name'];
+            $Discipline->user()->associate(\Auth::user());
+            $Discipline->save();
+
+            DB::commit();
+
+            return ['status' => 'success'];
+
+        }catch (\Exception $e){
+
+            DB::rollback();
+
+            return json_encode(['message'=> $e->getMessage(), 'status' => 'error']);
+        }
     }
 
     /**

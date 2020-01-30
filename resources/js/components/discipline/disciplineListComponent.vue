@@ -1,5 +1,13 @@
 <template>
     <div class="app-modal">
+        <create-discipline
+            v-bind:form-settings='makeForm'
+            v-bind:form-values='getValues'
+            v-bind:save-form='"/discipline"'
+            v-bind:modal-title='"Add Discipline"'
+            v-bind:back-route='"/discipline"'
+        >
+        </create-discipline>
         <div class="card shadow mb-4">
             <div class="card-header py-3">
                 <h6 class="m-0 font-weight-bold text-info">Discipline List</h6>
@@ -8,7 +16,7 @@
                     <v-client-table :data="disciplines" :columns="columns" :options="options">
                         <div slot="afterLimit" class="ml-2">
                             <div class="btn-group">
-                                <a class="btn btn-info" slot="afterLimit">Add Family</a>
+                                <a class="btn btn-info text-white" @click="showCreateDiscipline" slot="afterLimit">Add Discipline</a>
                             </div>
                         </div>
                         <div class="btn-group" slot="actions" slot-scope="{row}">
@@ -25,12 +33,31 @@
 
 <script>
 
+    import CreateDiscipline from './../globals/form/createModalComponent.vue'
+
     export default {
         name:'app-modal',
 
-        components: {},
+        components: {
+            CreateDiscipline
+        },
         data() {
             return {
+                //for create modal
+                makeForm: [{
+                    FormBody : [
+                          {
+                        type: 'text',
+                        lable: 'Discipline Name',
+                        name: 'name'
+                    }
+                    ]
+                  
+                }],
+        
+                getValues: {},
+
+                //for list
                 disciplines: [],
 
                 // for table
@@ -71,6 +98,10 @@
                     console.log(error);
 
                 })
+            },
+            showCreateDiscipline() {
+                console.log(this.makeForm),
+                this.$modal.show('size-modal')
             }
         }
        
