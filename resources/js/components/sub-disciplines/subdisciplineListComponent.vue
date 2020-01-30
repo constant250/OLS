@@ -1,5 +1,13 @@
 <template>
     <div class="app-modal">
+        <create-sub-discipline
+        v-bind:form-settings='makeForm'
+        v-bind:form-values='getValues'
+        v-bind:save-form='"/sub-discipline"'
+        v-bind:modal-title='"Add Sub-Discipline"'
+        v-bind:back-route='"/sub-discipline"'
+
+        ></create-sub-discipline>
         <div class="card shadow mb-4"> 
             <!-- mb -> margin bottom -->
             <div class="card-header py-3">
@@ -9,7 +17,7 @@
                 <v-client-table :data="subdiscipline" :columns="columns" :options="options">
                     <div slot= "afterLimit" class="ml-2">
                         <div class="btn-group">
-                            <a class="btn btn-info" slot="afterLimit">Add Sub-Category</a>
+                            <a class="btn btn-info text-white" @click="showCreateSubDiscipline" slot="afterLimit">Add Sub-Discipline</a>
                         </div>
                     </div>
                     <div class = "btn-group" slot="actions" slot-scope="{row}">
@@ -27,11 +35,33 @@
 
 <script>
 
+    import CreateSubDiscipline from './../globals/form/createModalComponent.vue'
+
     export default {
         name:'app-modal',
-        components: {},
+        components: {
+            CreateSubDiscipline
+        },
         data(){
             return {
+
+                // for create modal (based on createModalComponent)
+                makeForm: [{
+                   
+                   FormBody : [
+                        {
+                        type: 'text',
+                        lable: 'Sub-Discipline Name', 
+                        name: 'name'
+                        }
+                    ]
+                } ],
+                
+                getValues: {},
+                    // for object, curly brackets
+                
+
+                // for list
                 subdiscipline: [],
 
                 //for table
@@ -72,6 +102,10 @@
                 .catch( function (error) {
                     console.log (error);
                 } )
+            }, 
+            showCreateSubDiscipline(){
+                console.log(this.makeForm);
+                this.$modal.show('size-modal')
             }
         }
     }
