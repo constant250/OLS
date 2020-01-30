@@ -19,7 +19,7 @@ class ProjectController extends Controller
     public function index()
     {
         //
-        $project_types = ProjectType::all();
+        $project_types = ProjectType::all()->pluck('name', 'id');
         // dd($project_types);
         \JavaScript::put([
             'project_types' => $project_types
@@ -55,14 +55,17 @@ class ProjectController extends Controller
     {
         // dd($request->inputs['is_active'] == true ? 1 : 0);
         //
+
+        // dd($request->all());
+
         try {
             // start db transaction
             DB::beginTransaction();
 
             if(!isset($request->inputs['id'])){
                 $project = new Project;
-                $project->name = $request->project['name'];
-                $project->project_type_id = $request->project['project_type_id'];
+                $project->name = $request->inputs['name'];
+                $project->project_type_id = $request->inputs['project_type_id'];
                 $project->user()->associate(Auth::user());
                 $project->is_active = true;
                 $project->save();
