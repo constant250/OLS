@@ -58,6 +58,8 @@ Vue.component('multiselect', Multiselect);
 // jim components
 require('./jim.js');
 
+// james components
+require('./james.js');
 require('./axers.js');
 require('./kiz.js');
 require('./doi.js');
