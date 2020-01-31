@@ -1,5 +1,15 @@
 <template>
     <div class="app-modal">
+        <create-family-type
+            v-bind:form-settings='makeForm'
+            v-bind:form-values='getValues'
+            v-bind:save-form='"/family-type"'
+            v-bind:modal-title='"Add Family Type"'
+            v-bind:back-route='"/family-type"'
+
+        >
+
+        </create-family-type>
         <div class="card shadow mb-4">
             <div class="card-header py-3">
                 <h6 class="m-0 font-weight-bold text-info">Family Type List</h6>
@@ -8,7 +18,7 @@
                <v-client-table :data="familytypes" :columns="columns" :options="options">
                    <div slot="afterLimit" class="ml=2">
                        <div class="btn-group">
-                           <a class="btn btn-info text-white" slot="afterLimit">Add Family Type</a>
+                           <a class="btn btn-info text-white" @click="showCreateFamilyType" slot="afterLimit">Add Family Type</a>
                         </div>
                        </div>
                        <div class="btn-group" slot="actions" slot-scope="{row}">
@@ -24,11 +34,38 @@
 
 <script>
 
+
+    import CreateFamilyType from './../globals/form/createModalComponent.vue'
+
     export default {
         name:'app-modal',
-        components: {},
+        components: {
+            CreateFamilyType
+        },
         data(){
             return{
+
+                
+
+                /* for create modal */
+                makeForm: [{
+                    FormBody: [{
+                        
+                        type: 'text',
+                        lable: 'Family Type Name',
+                        name: 'name'
+
+                    
+                    }
+
+                    ]
+                    
+                }],
+
+                /* for value */
+                getValues: {},
+
+                /* for list */
                 familytypes: [],
 
                 /* for table */
@@ -56,10 +93,10 @@
             }
         },
         created(){
-            this.fetchlist();
+            this.fetchList();
         },
         methods: {
-            fetchlist(){
+            fetchList(){
                 let vm = this;
                 axios.get('/ft/list')
                 .then( function (r) {
@@ -71,6 +108,11 @@
                 .catch(function (error){
                   console.log(r.data);     
                 })
+            },
+
+            showCreateFamilyType(){
+                console.log(this.makeForm);
+                this.$modal.show('size-modal')
             }
         }
     }
