@@ -1,30 +1,31 @@
 <template>
     <div class="app-modal">
-        <create-familytype/>
+        <create-family-type
+            v-bind:form-settings='makeForm'
+            v-bind:form-values='getValues'
+            v-bind:save-form='"/family-type"'
+            v-bind:modal-title='"Add Family Type"'
+            v-bind:back-route='"/family-type"'
+
+        >
+
+        </create-family-type>
         <div class="card shadow mb-4">
             <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-info">Equipment List</h6>
+                <h6 class="m-0 font-weight-bold text-info">Family Type List</h6>
             </div>
             <div class="card-body">
-                <v-client-table :data="familytypeList" :columns="columns" :options="options" ref="courseTable">
-                        <div slot="afterLimit" class="ml-2">
-                            <div class="btn-group">
-                                <a href="javascript:void(0)"  @click="showCreatefamilytype" class="btn btn-info" slot="afterLimit"><i class="fas fa-plus"></i> Add familytype</a>
-                                <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    Export to
-                                    <span class="sr-only">Toggle Dropdown</span>
-                                </button>
-                                <div class="dropdown-menu dropdown-menu-right">
-                                    <a class="dropdown-item" href="#"><i class="far fa-file-pdf text-danger"></i>&nbsp; PDF</a>
-                                    <a class="dropdown-item" href="#"><i class="far fa-file-excel text-success"></i>&nbsp; Excel (CSV)</a>
-                                </div>
-                            </div>
+               <v-client-table :data="familytypes" :columns="columns" :options="options">
+                   <div slot="afterLimit" class="ml=2">
+                       <div class="btn-group">
+                           <a class="btn btn-info text-white" @click="showCreateFamilyType" slot="afterLimit">Add Family Type</a>
                         </div>
-                        <div class="btn-group" slot="actions" slot-scope="{row}">
-                            <a href="javascript:void(0)" class="btn btn-primary btn-sm" @click="equipDetail(row.id)"> <i class="fas fa-edit"> </i></a>
-                            <a href="javascript:void(0)" class="btn btn-danger btn-sm text-white" @click="removeEquip(row.id)"> <i class="fas fa-trash"> </i></a>
-                        </div>
-                </v-client-table>
+                       </div>
+                       <div class="btn-group" slot="actions" slot-scope="{row}">
+                           <a class="btn btn-primary btn-sm" @click="familytypeDetail(row.id)">Edit</a>
+                           <a class="btn btn-danger btn-sm text-white" @click="familytypeDelete(row.id)">Delete</a>
+                   </div>
+                   </v-client-table>
             </div>
         </div>
     </div>
@@ -33,136 +34,89 @@
 
 <script>
 
-    import Createfamilytype from './createfamilytypeComponent.vue'
+
+    import CreateFamilyType from './../globals/form/createModalComponent.vue'
 
     export default {
-        name: 'app-modal',
-        // mounted() {
-        //     console.log('Component mounted.')
-        // }
+        name:'app-modal',
         components: {
-            Createfamilytype
+            CreateFamilyType
         },
-        data() {
-            return {
-                familytypeList : [],
-                familytype : {},
-                familytype_id : '',
-                pagination : {},
-                edit: false,
-                searchfamilytypeName: '',
-                url: 'familytype/show/',
+        data(){
+            return{
 
-                // Vue-Tables-2 Syntax
-                columns: ['id', 'name', 'familytype_type.name', 'user.party.name', 'actions'],
+                
+
+                /* for create modal */
+                makeForm: [{
+                    FormBody: [{
+                        
+                        type: 'text',
+                        lable: 'Family Type Name',
+                        name: 'name'
+
+                    
+                    }
+
+                    ]
+                    
+                }],
+
+                /* for value */
+                getValues: {},
+
+                /* for list */
+                familytypes: [],
+
+                /* for table */
+                columns: ['id', 'name', 'action'],
                 options: {
                     initialPage:1,
                     perPage:10,
                     highlightMatches:true,
-                    sortIcon: { base:'fas', up:'fa-sort-amount-up', down:'fa-sort-amount-down', is:'fa-sort' },
+                    sortIcon: { base:'fas', up:'fa-sort-amount-up', down:'fa-sort-amount-down', is:'fa-sort'},
                     headings: {
                         id: '#',
-                        name: 'familytype Name',
-                        'familytype_type.name': 'familytype Type',
-                        'user.party.name': 'User',
-                        actions: 'Actions'
+                        name: 'Family Type',
+                        action: 'Actions',
                     },
-                    sortable: ['name', 'familytype_type.name', 'user.party.name'],
-                    rowClassCallback(row) {
+                    sortable: ['name'],
+                    rowClassCallback(row){
                         return row.id = row.id;
                     },
-                    columnClasses: {id: 'class-is'},
+                    columnClasses : {id: 'class-is'},
                     texts: {
-                        // filter: "Search:",
-                        filterPlaceholder: "Search keywords",
-                    }
-                },
+                        filterPlaceholder: 'Search keywords'
+                    },
+                }
 
-            };
+            }
         },
-        created() {
-            this.fetchfamilytype();
+        created(){
+            this.fetchList();
         },
         methods: {
-            // searchfamilytype() {
-            //     let vm = this;
-            //     console.log(this.searchfamilytypeName);
-            //     let search = (this.searchfamilytypeName ? this.searchfamilytypeName : '');
-
-            //     fetch('/familytype/list/search/'+search)
-            //         .then(res => res.json())
-            //         .then(res => {
-            //             this.familytypeList = res.data;
-            //             vm.makePagination(res);
-            //         })
-            //         .catch(err => console.log(err));
-            // },
-            fetchfamilytype(page_url) {
+            fetchList(){
                 let vm = this;
-                page_url = page_url || '/proj/list'
-                fetch(page_url)
-                    .then(res => res.json())
-                    .then(res => {
-                        console.log(res);
-                        this.familytypeList = res;
-                        vm.makePagination(res);
-                    })
-                    .catch(err => console.log(err));
-            },
-            makePagination(meta){
-                let pagination = {
-                    current_page: meta.current_page,
-                    last_page: meta.last_page,
-                    next_page_url: meta.next_page_url,
-                    prev_page_url: meta.prev_page_url
-                }
-                this.pagination = pagination
-            },
-            showCreatefamilytype () {
-                this.$modal.show('size-modal',{
-                    edit : false,
-                    id : '',
-                    course_id : '',
-                    name : '',
-                    code : '',
+                axios.get('/ft/list')
+                .then( function (r) {
+               /*       console.log(r.data); */
+                     vm.familytypes = r.data
+                     console.log(vm.familytypes);
+
+                })
+                .catch(function (error){
+                  console.log(r.data);     
                 })
             },
-            equipDetail (id) {
-                window.location.href = '/familytype/'+id;
-            },
-            removeEquip(id) {
-                let vm = this;
-                swal.fire({
-                    title: 'Are you sure delete familytype?',
-                    text: " this won't be able to revert!",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Yes, delete it!'
-                }).then((result) => {
-                    if (result.value) {
-                        axios.delete('/familytype/'+id)
-                        .then(function(res){
-                        // vm.files = res.data;
-                        if(res.data.status == 'success'){
-                            swal.fire(
-                                'Deleted!',
-                                'Equipment has been deleted.',
-                                'success'
-                            )
-                            vm.fetchfamilytype();
-                        }
-                        })
-                        .catch(function(error){
-                        });
-                    }
-                });
+
+            showCreateFamilyType(){
+                console.log(this.makeForm);
+                this.$modal.show('size-modal')
             }
-  
-            
         }
     }
+
 </script>
 
 <style>

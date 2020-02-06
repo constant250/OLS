@@ -4,7 +4,7 @@ use Illuminate\Http\Request;
 
 /*
 |--------------------------------------------------------------------------
-| Web Family Types Routes
+| Web Disciplines Routes
 |--------------------------------------------------------------------------
 |
 | Here is where you can register API routes for your application. These
@@ -14,9 +14,9 @@ use Illuminate\Http\Request;
 */
 
 // Resource
-Route::resource('family-type', 'FamilyType\FamilyTypeController');
+Route::resource('discipline', 'Discipline\DisciplineController');
 
-// Family Type List
-Route::get('/ft/list', 'FamilyType\FamilyTypeController@lists')->name('family-type.list');
+// Equipment List
+Route::get('/discip/list', 'Discipline\DisciplineController@lists')->name('discipline.list');
 // Equipment List Search
 // Route::get('/project/list/{search}', 'Project\ProjectController@lists');

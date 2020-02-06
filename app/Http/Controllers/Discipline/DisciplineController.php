@@ -1,13 +1,14 @@
 <?php
 
-namespace App\Http\Controllers\SubDiscipline;
+namespace App\Http\Controllers\Discipline;
 
 use App\Http\Controllers\Controller;
+use App\Model\Discipline as ModelDiscipline;
 use Illuminate\Http\Request;
-use App\Models\SubDiscipline;
+use App\Models\Discipline;
 use DB;
 
-class SubDisciplineController extends Controller
+class DisciplineController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,14 +17,18 @@ class SubDisciplineController extends Controller
      */
     public function index()
     {
-        return view ('sub-disciplines.index');
+        return view("disciplines.index");
+        //
     }
 
     public function lists()
     {
-        $subdiscipline = SubDiscipline::all();
+        $Discipline = Discipline::all();
 
-        return json_encode($subdiscipline);
+        
+
+        return json_encode($Discipline);
+
     }
     /**
      * Show the form for creating a new resource.
@@ -43,25 +48,24 @@ class SubDisciplineController extends Controller
      */
     public function store(Request $request)
     {
-        try{
-            // start db transaction
+        //
+        try {
             DB::beginTransaction();
 
-            $subdiscipline = new SubDiscipline;
-            $subdiscipline->name = $request->inputs['name'];
-            $subdiscipline->user()->associate(\Auth::user());
-            $subdiscipline->save();
+            $Discipline = new Discipline;
+            $Discipline->name=$request->inputs['name'];
+            $Discipline->user()->associate(\Auth::user());
+            $Discipline->save();
 
             DB::commit();
 
             return ['status' => 'success'];
 
-        } catch (\Exception $e) {
-            // rollback db transaction
-            DB::rollBack();
+        }catch (\Exception $e){
 
-            // return to previous page with errors
-            return json_encode(['message' => $e->getMessage(), 'status' => 'error']);
+            DB::rollback();
+
+            return json_encode(['message'=> $e->getMessage(), 'status' => 'error']);
         }
     }
 

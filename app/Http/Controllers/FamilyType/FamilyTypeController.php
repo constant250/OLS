@@ -5,6 +5,7 @@ namespace App\Http\Controllers\FamilyType;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\FamilyType;
+use DB;
 
 class FamilyTypeController extends Controller
 {
@@ -19,6 +20,7 @@ class FamilyTypeController extends Controller
         return view('family-types.index');
         //
     }
+    
 
     /**
      * Show the form for creating a new resource.
@@ -38,6 +40,25 @@ class FamilyTypeController extends Controller
      */
     public function store(Request $request)
     {
+        try {
+            DB::beginTransaction();
+
+            $familytype = new FamilyType;
+            $familytype->name = $request->inputs['name'];
+            $familytype->user()->associate(\Auth::user());
+            $familytype->save();
+
+            DB::commit();
+
+            return ['status' => 'success'];
+
+        } catch (\Exception $e) {
+
+            DB::rollBack();
+
+            return json_encode(['message' => $e->getMessage(), 'status' => 'error']);
+        }
+
         //
     }
 

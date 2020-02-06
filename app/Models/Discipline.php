@@ -7,7 +7,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use OwenIt\Auditing\Auditable;
 use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
 
-class Category extends Model implements AuditableContract
+
+class Discipline extends Model implements AuditableContract
 {
     //
     use SoftDeletes;
@@ -17,10 +18,9 @@ class Category extends Model implements AuditableContract
         'name'
     ];
 
-    public function user()
-    {
-        return $this->belongsTo(User::class);
-    }
-
+public function user()
+{
+return $this->belongsTo(User::class);
+}
     
 }
