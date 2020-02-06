@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Family;
 use App\Http\Controllers\Controller;
 use App\Models\Family;
 use Illuminate\Http\Request;
+use DB;
 
 class FamilyController extends Controller
 {
@@ -45,6 +46,26 @@ class FamilyController extends Controller
     public function store(Request $request)
     {
         //
+        try {
+            // start db transaction
+            DB::beginTransaction();
+
+            $family = new Family;
+            $family->name = $request->inputs['name'];
+            $family->user()->associate(\Auth::user());
+            $family->save();
+           
+            DB::commit();
+
+            return ['status' => 'success'];
+
+        } catch (\Exception $e) {
+            // rollback db transactions
+            DB::rollBack();
+
+            // return to previous page with errors
+            return json_encode(['message' => $e->getMessage(), 'status' => 'error']);
+        }
     }
 
     /**

@@ -1,5 +1,13 @@
 <template>
     <div class="app-modal">
+        <create-family
+            v-bind:form-settings='makeForm'
+            v-bind:form-values='getValues'
+            v-bind:save-form='"/family"'
+            v-bind:modal-title='"Add Family"'
+            v-bind:back-route='"/family"'
+        >
+        </create-family>
         <div class="card shadow mb-4">
             <div class="card-header py-3">
                 <h6 class="m-0 font-weight-bold text-info">Family List</h6>
@@ -8,7 +16,7 @@
                 <v-client-table :data="families" :columns="columns" :options="options">
                     <div slot="afterLimit" class="ml-2">
                         <div class="btn-group">
-                            <a class="btn btn-info text-white" slot="afterLimit">Add Family</a>
+                            <a class="btn btn-info text-white" @click="showCreateFamily" slot="afterLimit">Add Family</a>
                         </div>
                     </div>
                     <div class="btn-group" slot="actions" slot-scope="{row}">
@@ -24,11 +32,27 @@
 
 <script>
 
+    import CreateFamily from './../globals/form/createModalComponent.vue'
+
     export default {
         name:'app-modal',
-        components:  {},
+        components:  {
+            CreateFamily
+        },
         data() {
             return {
+                // for create modal
+                makeForm: [{
+                    FormBody : [
+                        {
+                            type: 'text',
+                            lable: 'Family Name',
+                            name: 'name'
+                        }
+                    ]
+                }],
+                getValues: {},
+                // for list
                 families: [],
 
                 // for table
@@ -71,6 +95,10 @@
                 .catch(function (error) {
                     console.log(error);
                 })
+            },
+            showCreateFamily() {
+                console.log(this.makeForm);
+                this.$modal.show('size-modal')
             }
         } 
     }
