@@ -82,6 +82,7 @@
                         filterPlaceholder: "Search keywords",
                     }
                 },
+                
                 getValues : {},
                 makeForm : [{
                     FormTitle : 'Add Project',
