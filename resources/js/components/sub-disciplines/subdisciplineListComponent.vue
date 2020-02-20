@@ -20,9 +20,9 @@
                             <a class="btn btn-info text-white" @click="showCreateSubDiscipline" slot="afterLimit">Add Sub-Discipline</a>
                         </div>
                     </div>
-                    <div class = "btn-group" slot="actions" slot-scope="{row}">
-                        <a class="btn btn-primary btn-sm" @click="subdisciplineDetail(row.id)">Edit</a>
-                        <a class="btn btn-danger btn-sm text-white" @click="subdisciplineDetail(row.id)">Delete</a>
+                    <div class = "btn-group" slot="action" slot-scope="{row}">
+                        <a class="btn btn-primary btn-sm text-white" @click="subdisciplineDetail(row.id)"><i class="fas fa-edit"></i></a>
+                        <a class="btn btn-danger btn-sm text-white" @click="subdisciplineDelete(row.id)"><i class="fas fa-trash"></i></a>
                     </div>
                 </v-client-table>
             </div>
@@ -51,7 +51,7 @@
                    FormBody : [
                         {
                         type: 'text',
-                        lable: 'Sub-Discipline Name', 
+                        label: 'Sub-Discipline Name', 
                         name: 'name'
                         }
                     ]
@@ -106,13 +106,24 @@
             showCreateSubDiscipline(){
                 console.log(this.makeForm);
                 this.$modal.show('size-modal')
-            }
+            },
+
+            subdisciplineDetail(id){
+                window.location.href = '/sub-discipline/'+id;
+            },
+            subdisciplineDelete(id){
+                alert('delete ' + id);
+            },
+
         }
     }
        
 </script>
 
 <style>
+    td{
+        text-align:center;
+    }
     th{
         background-color: #36b9cc;
         text-align: center;

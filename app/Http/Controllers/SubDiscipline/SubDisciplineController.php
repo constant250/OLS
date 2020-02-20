@@ -73,7 +73,14 @@ class SubDisciplineController extends Controller
      */
     public function show($id)
     {
-        //
+        
+        $data = SubDiscipline::where('id', $id)->first();
+
+        \JavaScript::put([
+            'subdiscipline' => $data
+        ]);
+
+        return view ('sub-disciplines.show');
     }
 
     /**
