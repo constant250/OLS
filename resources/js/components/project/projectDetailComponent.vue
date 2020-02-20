@@ -49,18 +49,18 @@
                     FormBody : [
                         {
                             type : 'text',
-                            lable : 'Project Name',
+                            label : 'Project Name',
                             name : 'name',
                         },
                         {
                             type : 'select',
-                            lable : 'Project Type',
+                            label : 'Project Type',
                             name : 'project_type_id',
                             items :window.project_types,
                         },
                         {
                             type : 'checkbox',
-                            lable : 'Active',
+                            label : 'Active',
                             name : 'is_active',
                         },               
                     ]

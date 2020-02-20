@@ -19,7 +19,7 @@
                         <div v-if="itm['type'] === 'text'">
                             <!-- text -->
                             <div class="form-group">
-                                <label for="company_name">{{itm['lable']}}</label>
+                                <label for="company_name">{{itm['label']}}</label>
                                 <input class="form-control" v-bind:name="itm['name']" type="text"  v-bind:id="itm['name']" v-model="inputs[itm['name']]">
                             </div>
                         </div>
@@ -36,7 +36,7 @@
                         <div v-else-if="itm['type'] === 'checkbox'">
                             <!-- checkbox -->
                             <div class="form-group">
-                                <label v-bind:for="itm['name']">{{itm['lable']}}</label>
+                                <label v-bind:for="itm['name']">{{itm['label']}}</label>
                                 <div class="custom-control custom-switch my-2">
                                     <input type="checkbox" class="custom-control-input" v-bind:id="itm['name']" v-model="inputs[itm['name']]">
                                     <label class="custom-control-label" v-bind:for="itm['name']"></label> 
@@ -46,7 +46,7 @@
                         <div v-else-if="itm['type'] === 'number'">
                             <!-- number -->
                             <div class="form-group">
-                                <label v-bind:for="itm['name']">{{itm['lable']}}</label>
+                                <label v-bind:for="itm['name']">{{itm['label']}}</label>
                                 <input class="form-control" v-bind:name="itm['name']" type="number"  v-bind:id="itm['name']" v-model="inputs[itm['name']]">
                             </div>
                         </div>
@@ -56,28 +56,28 @@
                         <div v-else-if="itm['type'] === 'email'">
                             <!-- emailbox -->
                             <div class="form-group">
-                                <label for="company_name">{{itm['lable']}}</label>
+                                <label for="company_name">{{itm['label']}}</label>
                                 <input class="form-control" v-bind:name="itm['name']" type="email"  v-bind:id="itm['name']" v-model="inputs[itm['name']]">
                             </div>
                         </div>
                         <div v-else-if="itm['type'] === 'password'">
                             <!-- passwordbox -->
                             <div class="form-group">
-                                <label for="company_name">{{itm['lable']}}</label>
+                                <label for="company_name">{{itm['label']}}</label>
                                 <input class="form-control" v-bind:name="itm['name']" type="password"  v-bind:id="itm['name']" v-model="inputs[itm['name']]">
                             </div>
                         </div>
                         <div v-else-if="itm['type'] === 'textbox'">
                             <!-- textbox -->
                             <div class="form-group">
-                                <label v-bind:for="itm['name']">{{itm['lable']}}</label>
+                                <label v-bind:for="itm['name']">{{itm['label']}}</label>
                                 <textarea class="form-control" v-bind:name="itm['name']"  v-bind:id="itm['name']" v-model="inputs[itm['name']]"></textarea>
                             </div>
                         </div>
                         <div v-else-if="itm['type'] === 'multiselect'">
                             <!-- multiselect -->
                             <div class="form-group">
-                                <label v-bind:for="itm['name']">{{itm['lable']}}</label>
+                                <label v-bind:for="itm['name']">{{itm['label']}}</label>
                                 <multiselect 
                                     v-model="inputs[itm['name']]" 
                                     :options="itm['selections']" 
