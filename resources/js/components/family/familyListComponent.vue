@@ -46,7 +46,7 @@
                     FormBody : [
                         {
                             type: 'text',
-                            lable: 'Family Name',
+                            label: 'Family Name',
                             name: 'name'
                         }
                     ]
