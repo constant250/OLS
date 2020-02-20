@@ -77,6 +77,14 @@ class FamilyController extends Controller
     public function show($id)
     {
         //
+
+        $data = Family::where('id', $id)->first();
+        // dd($data);
+        \JavaScript::put([
+            'family' => $data
+        ]);
+
+        return view('family.show');
     }
 
     /**

@@ -8,3 +8,4 @@ Vue.component('project-detail', require('./components/project/projectDetailCompo
 
 // Families
 Vue.component('family-list', require('./components/family/familyListComponent.vue').default);
+Vue.component('family-detail', require('./components/family/familyDetailComponent.vue').default);
