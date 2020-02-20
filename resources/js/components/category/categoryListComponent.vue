@@ -20,8 +20,8 @@
                             </div>
                         </div>
                         <div class="btn-group" slot="actions" slot-scope="{row}">
-                            <a class="btn btn-primary btn-sm" @click=categoryDetail(row.id)>Edit</a>
-                            <a class="btn btn-danger btn-sm text-white" @click="categoryDelete(row.id)">Delete</a>
+                            <a class="btn btn-primary btn-sm text-white" @click=categoryDetail(row.id)><i class="fas fa-edit"></i></a>
+                            <a class="btn btn-danger btn-sm text-white" @click="categoryDelete(row.id)"><i class="far fa-trash-alt"></i></a>
                         </div>
                     </v-client-table>
                 </div>
@@ -70,7 +70,7 @@
                 categories: [],
 
                 //for table
-                columns:['id', 'name', 'action'],
+                columns:['id', 'name', 'actions'],
                 options: {
                     initialPage:1,
                     perPage:10,
@@ -79,7 +79,7 @@
                     headings: {
                         id: '#',
                         name: 'Category',
-                        action: 'Actions'
+                        actions: 'Actions'
                     },
                     sortable:['name'],
                     rowClassCallback(row){
@@ -117,6 +117,12 @@
             showCreateCategory() {
                 console.log(this.makeForm);
                 this.$modal.show('size-modal')
+            },
+            categoryDetail(id) {
+                window.location.href = '/category/'+id;
+            },
+            categoryDelete(id){
+                alert('delete' + id);
             }
         }
     }
@@ -124,6 +130,9 @@
 </script>
 
 <style>
+    td{
+        text-align: center;
+    }
     th{
         background-color: #36b9cc;
         text-align: center;

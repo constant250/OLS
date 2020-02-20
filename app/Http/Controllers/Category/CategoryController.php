@@ -78,7 +78,14 @@ try {
      */
     public function show($id)
     {
-        //
+
+            $data = Category::where('id', $id)->first();
+
+            \JavaScript::put([
+                'category' => $data
+            ]);
+
+            return view('category.show');
     }
 
     /**
