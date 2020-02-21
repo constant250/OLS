@@ -19,9 +19,9 @@
                             <a class="btn btn-info text-white" @click="showCreateFamily" slot="afterLimit">Add Family</a>
                         </div>
                     </div>
-                    <div class="btn-group" slot="actions" slot-scope="{row}">
-                        <a class="btn btn-primary btn-sm" @click="familyDetail(row.id)">Edit</a>
-                        <a class="btn btn-danger btn-sm text-white" @click="familyDelete(row.id)">Delete</a>
+                    <div class="btn-group" slot="action" slot-scope="{row}">
+                        <a class="btn btn-primary btn-sm text-white" @click="familyDetail(row.id)"><i class="fas fa-edit"></i></a>
+                        <a class="btn btn-danger btn-sm text-white" @click="familyDelete(row.id)"><i class="fas fa-trash"></i></a>
                     </div>
                 </v-client-table>
             </div>
@@ -99,6 +99,12 @@
             showCreateFamily() {
                 console.log(this.makeForm);
                 this.$modal.show('size-modal')
+            },
+            familyDetail(id) {
+                window.location.href = '/family/'+id;
+            },
+            familyDelete(id){
+                alert('delete ' + id);
             }
         } 
     }
@@ -106,6 +112,9 @@
 </script>
 
 <style>
+    td {
+        text-align: center;
+    }
     th{
         background-color: #36b9cc;
         text-align: center;
