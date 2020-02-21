@@ -80,6 +80,14 @@ class FamilyTypeController extends Controller
     public function show($id)
     {
         //
+
+        $data = FamilyType::where('id', $id)->first();
+
+        \JavaScript::put([
+            'familytype' => $data
+        ]);
+
+        return view('family-types.show');
     }
 
     /**

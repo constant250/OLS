@@ -21,9 +21,9 @@
                            <a class="btn btn-info text-white" @click="showCreateFamilyType" slot="afterLimit">Add Family Type</a>
                         </div>
                        </div>
-                       <div class="btn-group" slot="actions" slot-scope="{row}">
-                           <a class="btn btn-primary btn-sm" @click="familytypeDetail(row.id)">Edit</a>
-                           <a class="btn btn-danger btn-sm text-white" @click="familytypeDelete(row.id)">Delete</a>
+                       <div class="btn-group" slot="action" slot-scope="{row}">
+                           <a class="btn btn-primary btn-sm text-white" @click="familytypeDetail(row.id)"><i class="fas fa-pen-nib"></i></a>
+                           <a class="btn btn-danger btn-sm text-white" @click="familytypeDelete(row.id)"><i class="fas fa-dumpster"></i></a>
                    </div>
                    </v-client-table>
             </div>
@@ -78,7 +78,7 @@
                     headings: {
                         id: '#',
                         name: 'Family Type',
-                        action: 'Actions',
+                        action: 'Action',
                     },
                     sortable: ['name'],
                     rowClassCallback(row){
@@ -113,6 +113,13 @@
             showCreateFamilyType(){
                 console.log(this.makeForm);
                 this.$modal.show('size-modal')
+            },
+            familytypeDetail (id) {
+                window.location.href = '/family-type/'+id;
+                alert(id);
+            },
+            familytypeDelete (id) {
+                alert('delete' + id);
             }
         }
     }
