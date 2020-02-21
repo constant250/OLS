@@ -78,6 +78,13 @@ class DisciplineController extends Controller
     public function show($id)
     {
         //
+        $data = Discipline::where('id', $id)->first();
+
+        \JavaScript::put([
+            'discipline'=> $data
+        ]);
+
+        return view('disciplines.show');
     }
 
     /**

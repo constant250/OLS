@@ -19,9 +19,9 @@
                                 <a class="btn btn-info text-white" @click="showCreateDiscipline" slot="afterLimit">Add Discipline</a>
                             </div>
                         </div>
-                        <div class="btn-group" slot="actions" slot-scope="{row}">
-                            <a class="btn btn-primary btn-sm" @click="disciplineDetail(row.id)">Edits</a>
-                            <a class="btn btn-danger btn-sm text-white" @click="disciplineDelete(row.id)">Delete</a>
+                        <div class="btn-group" slot="action" slot-scope="{row}">
+                            <a class="btn btn-primary btn-sm text-white" @click="disciplineDetail(row.id)"><i class="fas fa-edit"></i></a>
+                            <a class="btn btn-danger btn-sm text-white" @click="disciplineDelete(row.id)"><i class="fas fa-trash"></i></a>
                         </div>    
                     </v-client-table>
             </div>
@@ -48,7 +48,7 @@
                     FormBody : [
                           {
                         type: 'text',
-                        lable: 'Discipline Name',
+                        label: 'Discipline Name',
                         name: 'name'
                     }
                     ]
@@ -102,6 +102,12 @@
             showCreateDiscipline() {
                 console.log(this.makeForm),
                 this.$modal.show('size-modal')
+            },
+            disciplineDetail(id){
+                window.location.href='/discipline/'+id;
+            },
+            disciplineDelete(id){
+                alert('delete' + id);
             }
         }
        
@@ -109,6 +115,9 @@
 </script>
 
 <style>
+    td {
+        text-align: center;
+    }
     th{
         background-color: #36b9cc;
         text-align: center;
