@@ -62,7 +62,7 @@
 
                 // for table
                 columns: ['id','name', 'action'],
-                optionsz: {
+                options: {
                     initialPage:1,
                     perPage:10,
                     highlightMatches:true,
@@ -107,7 +107,37 @@
                 window.location.href='/discipline/'+id;
             },
             disciplineDelete(id){
-                alert('delete' + id);
+                let vm = this;
+                swal.fire({
+                    title: 'Are you sure?',
+                    text: "You won't be able to revert this!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, delete it!'
+                }).then((result) => {
+                if (result.value) {
+
+                    axios.delete('/discipline/'+id)
+                    .then(function(res){
+                        if(res.data.status == 'success'){
+                            
+                            swal.fire(
+                                'Deleted!',
+                                'Your file has been deleted.',
+                                'success'
+                         )
+                         vm.fetchList();
+                        }
+
+                    })
+                    .catch(function(error){
+                        console.log(error);
+                    });
+
+  }
+})
             }
         }
        

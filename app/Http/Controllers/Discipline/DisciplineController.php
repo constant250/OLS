@@ -48,15 +48,30 @@ class DisciplineController extends Controller
      */
     public function store(Request $request)
     {
+
+            
         //
         try {
             DB::beginTransaction();
 
+            if(isset($request->inputs['id'])){
+
+                 // for edit/update
+                 $Discipline = Discipline::where('id', $request->inputs['id'])->first();
+                 $Discipline->name=$request->inputs['name'];
+                 $Discipline->update();
+                 
+
+            }else{
+
+                // for create/saving
             $Discipline = new Discipline;
             $Discipline->name=$request->inputs['name'];
             $Discipline->user()->associate(\Auth::user());
             $Discipline->save();
-
+                
+            }
+          
             DB::commit();
 
             return ['status' => 'success'];
@@ -119,5 +134,25 @@ class DisciplineController extends Controller
     public function destroy($id)
     {
         //
-    }
+        try {
+            // start db transaction
+            DB::beginTransaction();
+
+            $discipline = Discipline::where('id', $id)->first();
+            $discipline->delete();
+
+            DB:: commit();
+            return['status'=>'success'];
+        } catch(\Exception $e){
+
+            // rollback db transactions
+            DB::rollBack();
+
+            // return to previous page with errors
+            return  json_encode(['message' => $e->getMessage(), 'status' => 'error']);
+        }
+
+        
+    
+}
 }
