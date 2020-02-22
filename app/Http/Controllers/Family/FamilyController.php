@@ -50,11 +50,19 @@ class FamilyController extends Controller
             // start db transaction
             DB::beginTransaction();
 
-            $family = new Family;
-            $family->name = $request->inputs['name'];
-            $family->user()->associate(\Auth::user());
-            $family->save();
-           
+            if(isset($request->inputs['id'])){
+                // for edit/update
+                $family = Family::where('id', $request->inputs['id'])->first();
+                $family->name = $request->inputs['name'];
+                $family->update();
+            }else{
+                // for create/saving
+                $family = new Family;
+                $family->name = $request->inputs['name'];
+                $family->user()->associate(\Auth::user());
+                $family->save();
+            }
+
             DB::commit();
 
             return ['status' => 'success'];
@@ -119,5 +127,23 @@ class FamilyController extends Controller
     public function destroy($id)
     {
         //
+        try {
+            // start db transaction
+            DB::beginTransaction();
+
+            $family = Family::where('id', $id)->first();
+            $family->delete();
+
+            DB::commit();
+
+            return ['status' => 'success'];
+            
+        } catch (\Exception $e) {
+            // rollback db transactions
+            DB::rollBack();
+
+            // return to previous page with errors
+            return json_encode(['message' => $e->getMessage(), 'status' => 'error']);
+        }
     }
 }
