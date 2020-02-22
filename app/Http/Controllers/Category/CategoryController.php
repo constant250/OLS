@@ -46,14 +46,29 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
+        
 try {
     // start of db transaction
     DB::beginTransaction();
+
+    if(isset($request->inputs['id'])){
+
+    
+    // for edit/update
+        $category = Category::where('id', $request->inputs['id'])->first();
+        $category->name = $request->inputs['name'];
+        $category->update();
+    }else{
+
+    // for create/saving
+
 
     $category = new category;
     $category->name = $request->inputs['name'];
     $category->user()->associate(\Auth::user());
     $category->save();
+    }
+
 
     DB::commit();
 
@@ -120,6 +135,22 @@ try {
     public function destroy($id)
     {
         //
+        try {
+            // start of db transaction
+            DB::beginTransaction();
+
+            $category = Category::where('id', $id)->first();
+            $category->delete();
+            
+            DB::commit();
+            return ['status' => 'success'];
+        }catch (\Exception $e) {
+            // rollback db transactiobs
+            DB::rollBack();
+
+            // return to previous page with errors
+            return json_encode(['message' => $e->getMessage(), 'status' => 'error']);
+        }
     }
 }
 
