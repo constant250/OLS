@@ -43,15 +43,28 @@ class SubDisciplineController extends Controller
      */
     public function store(Request $request)
     {
+    
+
         try{
             // start db transaction
             DB::beginTransaction();
 
+            if(isset($request->inputs['id'])){
+                                    
+            // for edit
+                $subdiscipline = SubDiscipline::where('id', $request->inputs['id'])->first();
+                $subdiscipline->name = $request->inputs['name'];
+                $subdiscipline->update();
+
+            } else {  
+
+            // for create
             $subdiscipline = new SubDiscipline;
             $subdiscipline->name = $request->inputs['name'];
             $subdiscipline->user()->associate(\Auth::user());
             $subdiscipline->save();
-
+            }
+            
             DB::commit();
 
             return ['status' => 'success'];
@@ -115,5 +128,23 @@ class SubDisciplineController extends Controller
     public function destroy($id)
     {
         //
+        try{
+            // start db transaction
+            DB::beginTransaction();
+
+            $subdiscipline = SubDiscipline::where('id', $id)->first();
+            $subdiscipline->delete();
+
+            DB::commit();
+            return['status' => 'success'];
+
+        } catch (\Exception $e) {
+            // rollback db transaction
+            DB::rollBack();
+
+            // return to previous page with errors
+            return json_encode(['message' => $e->getMessage(), 'status' => 'error']);
+        }
+
     }
 }
