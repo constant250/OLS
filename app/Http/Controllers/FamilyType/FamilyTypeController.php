@@ -43,10 +43,20 @@ class FamilyTypeController extends Controller
         try {
             DB::beginTransaction();
 
-            $familytype = new FamilyType;
-            $familytype->name = $request->inputs['name'];
-            $familytype->user()->associate(\Auth::user());
-            $familytype->save();
+            if(isset($request->inputs['id'])){
+                $familytype = FamilyType::where('id', $request->inputs['id'])->first();
+                $familytype->name = $request->inputs['name'];
+                $familytype->update();
+                
+            }else{
+
+                $familytype = new FamilyType;
+                $familytype->name = $request->inputs['name'];
+                $familytype->user()->associate(\Auth::user());
+                $familytype->save();
+            }
+
+            
 
             DB::commit();
 
@@ -121,6 +131,26 @@ class FamilyTypeController extends Controller
      */
     public function destroy($id)
     {
+
+        try {
+
+            DB::beginTransaction();
+
+            $familytype = FamilyType::where('id', $id)->first();
+            $familytype->delete();
+
+            DB::commit();
+            return ['status' => 'success'];
+            } catch (\Exception $e) 
+                {
+
+                DB::rollBack();
+
+                return json_encode(['message' => $e->getMessage(), 'status' => 'error']);
+                }
+            }
+
+
         //
     }
-}
+
