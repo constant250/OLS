@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Family;
 
 use App\Http\Controllers\Controller;
 use App\Models\Family;
+use App\Models\FamilyType;
 use Illuminate\Http\Request;
 use DB;
 

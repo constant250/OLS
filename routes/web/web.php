@@ -21,3 +21,5 @@ Route::get('/dashboard', 'HomeController@index')->name('home');
 Route::get('/', 'HomeController@index')->name('home');
 Route::get('/dynamic-form', 'HomeController@dynamic_form')->name('dynamic-form');
 
+Route::get('/todo-example', 'HomeController@todo_example')->name('todo-example');
+

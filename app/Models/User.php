@@ -71,4 +71,9 @@ class User extends Authenticatable implements AuditableContract
     //     return $this->hasOne(Email::class);
     // }
 
+    public function todos()
+    {
+        return $this->hasMany(Todo::class)->orderBy('created_at', 'desc');
+    }
+
 }
