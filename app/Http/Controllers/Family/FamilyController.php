@@ -17,7 +17,13 @@ class FamilyController extends Controller
      */
     public function index()
     {
-        //
+        
+        // $family_type = FamilyType::all()->pluck('name', 'id');
+
+        // \JavaScript::put([
+        //     'family_type' => $family_type
+        // ]);
+
         return view('family.index');
     }
 
@@ -54,12 +60,14 @@ class FamilyController extends Controller
             if(isset($request->inputs['id'])){
                 // for edit/update
                 $family = Family::where('id', $request->inputs['id'])->first();
-                $family->name = $request->inputs['name'];
                 $family->update();
             }else{
                 // for create/saving
                 $family = new Family;
                 $family->name = $request->inputs['name'];
+                $family->material_code = $request->inputs['material_code'];
+                $family->description = $request->inputs['description'];
+                $family->specification = $request->inputs['specification'];
                 $family->user()->associate(\Auth::user());
                 $family->save();
             }

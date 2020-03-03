@@ -39,7 +39,29 @@
                             type : 'text',
                             label: 'Family Name',
                             name: 'name',
-                        } 
+                        },
+                        {
+                            type : 'number',
+                            label: 'Material Code',
+                            name: 'material_code',
+                        },
+                        {
+                            type : 'text',
+                            label: 'Description',
+                            name: 'description',
+                        },
+                        // {
+                        //     type : 'select',
+                        //     label: 'Family zType',
+                        //     name: 'family_type',
+                        //     items :window.family_type,
+                        // },
+                        {
+                            type : 'text',
+                            label: 'Specification',
+                            name: 'specification',
+                        },
+                        
                     ]
                 }],
                 getValues: window.family,
