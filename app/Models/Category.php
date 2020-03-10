@@ -14,7 +14,8 @@ class Category extends Model implements AuditableContract
     use Auditable;
 
     protected $fillable = [
-        'name'
+        'name',
+        'sub_discipline_id'
     ];
 
     public function user()

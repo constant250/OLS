@@ -34,7 +34,7 @@ class CategoryController extends Controller
             'id'=> $id
         ]);
 
-        return view("disciplines.index");
+        return view('category.index');
 
     }
 
@@ -74,6 +74,7 @@ try {
     // for edit/update
         $category = Category::where('id', $request->inputs['id'])->first();
         $category->name = $request->inputs['name'];
+        $category->sub_discipline_id = $request->id;
         $category->update();
     }else{
 
@@ -82,6 +83,7 @@ try {
 
     $category = new category;
     $category->name = $request->inputs['name'];
+    $category->sub_discipline_id = $request->id;
     $category->user()->associate(\Auth::user());
     $category->save();
     }

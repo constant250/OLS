@@ -97,7 +97,7 @@
             fetchList() {
                 let vm = this;
                 let url = vm.sub_discipline_id != null ? '/subdiscip/'+vm.sub_discipline_id+'/category/list' : '/cat/list';
-                axios.get('/cat/list')
+                axios.get(url)
                 .then(function (r) {
                     console.log(r.data);
                     vm.categories = r.data;
