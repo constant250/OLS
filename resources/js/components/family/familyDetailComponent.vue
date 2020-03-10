@@ -52,7 +52,7 @@
                         },
                         // {
                         //     type : 'select',
-                        //     label: 'Family zType',
+                        //     label: 'Family Type',
                         //     name: 'family_type',
                         //     items :window.family_type,
                         // },
