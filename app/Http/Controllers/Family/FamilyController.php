@@ -17,7 +17,13 @@ class FamilyController extends Controller
      */
     public function index()
     {
-        //
+        
+        // $family_type = FamilyType::all()->pluck('name', 'id');
+
+        // \JavaScript::put([
+        //     'family_type' => $family_type
+        // ]);
+
         return view('family.index');
     }
 
@@ -54,7 +60,6 @@ class FamilyController extends Controller
             if(isset($request->inputs['id'])){
                 // for edit/update
                 $family = Family::where('id', $request->inputs['id'])->first();
-                $family->name = $request->inputs['name'];
                 $family->update();
             }else{
                 // for create/saving
@@ -149,4 +154,65 @@ class FamilyController extends Controller
             return json_encode(['message' => $e->getMessage(), 'status' => 'error']);
         }
     }
+    public function search_family(Request $request)
+    {
+       
+        // return all data
+        $family = Family::all();
+
+        // return all trash data
+        // $family = Family::onlyTrashed()->get();
+
+        // restore trash data
+        // $family = Family::onlyTrashed()->where('id', 3)->first();
+        // $family->restore();
+
+        // retrun specific data from priority_id column
+        // $family = Family::where('priority_id', 1)->get();
+
+        // // return specific data based on like
+        $family = Family::where('name', 'like', '%'.$request->get.'%')->orWhere('material_code', '=', $request->get) ->get();
+
+        // // retrun based on time
+        // $family = Family::->get();
+        // // <, >, <>, =,d
+
+        // // retrun user table relationship BelongsTo
+        // $family = Family::with('user')->get();
+
+        // // retrun user table relationship hasMany
+        // $user = User::with('todos')->get();
+
+        // store data to todos table
+        // $family = new Family;
+        // $family->fill(
+        //     [
+        //         'task' => 'task 6',
+        //         'user_id' => 1,
+        //         'priority_id' => 3
+        //     ]
+        // );
+        // $family->save();
+
+        // update data to todos table
+        // $family = Family::find(5);
+        // $family = Family::where('id', 5)->first();
+        // $family->fill(
+        //     [
+        //         'task' => 'task 24',
+        //         'user_id' => 1,
+        //         'priority_id' => 3
+        // //     ]
+        // );
+        // $family->update();
+
+        // delete data from todos table
+        // $family = Family::where('id', 3)->first();
+        // $family->delete();
+
+        dd($family);
+
+        
+    }
+
 }
