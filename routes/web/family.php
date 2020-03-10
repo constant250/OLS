@@ -18,5 +18,7 @@ Route::resource('family', 'Family\FamilyController');
 
 // Families List
 Route::get('/families/list', 'Family\FamilyController@lists')->name('families.list');
+
+Route::get('/search-family', 'Family\FamilyController@search_family')->name('families.search_family');
 // Equipment List Search
 // Route::get('/project/list/{search}', 'Project\ProjectController@lists');
