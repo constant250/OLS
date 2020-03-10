@@ -25,10 +25,25 @@ class DisciplineController extends Controller
     {
         $Discipline = Discipline::all();
 
-        
-
         return json_encode($Discipline);
 
+    }
+
+    public function proj_disc($id){
+
+        \JavaScript::put([
+            'id'=> $id
+        ]);
+
+        return view("disciplines.index");
+
+    }
+
+    public function proj_disc_list($id)
+    {
+        $discipline = Discipline::where('project_id', null)->orWhere('project_id', $id)->orderBy('id', 'desc')->get();
+
+        return json_encode($discipline);
     }
     /**
      * Show the form for creating a new resource.
@@ -59,6 +74,7 @@ class DisciplineController extends Controller
                  // for edit/update
                  $Discipline = Discipline::where('id', $request->inputs['id'])->first();
                  $Discipline->name=$request->inputs['name'];
+                 $Discipline->project_id=$request->id;
                  $Discipline->update();
                  
 
@@ -67,6 +83,7 @@ class DisciplineController extends Controller
                 // for create/saving
             $Discipline = new Discipline;
             $Discipline->name=$request->inputs['name'];
+            $Discipline->project_id=$request->id;
             $Discipline->user()->associate(\Auth::user());
             $Discipline->save();
                 

@@ -50,31 +50,31 @@
         <i class="fas fa-home"></i>
         <span>Projects</span></a>
     </li>
-    <li class="nav-item">
+    {{-- <li class="nav-item">
       <a class="nav-link" href="/discipline">
         <i class="fas fa-first-aid"></i>
         <span>Disciplines</span></a>
-    </li>
-    <li class="nav-item">
+    </li> --}}
+    {{-- <li class="nav-item">
       <a class="nav-link" href="/sub-discipline">
         <i class="fas fa-first-aid"></i>
         <span>Sub-Disciplines</span></a>
-    </li>
-    <li class="nav-item">
+    </li> --}}
+    {{-- <li class="nav-item">
       <a class="nav-link" href="/category">
         <i class="fas fa-first-aid"></i>
         <span>Categories</span></a>
-    </li>
-    <li class="nav-item">
+    </li> --}}
+    {{-- <li class="nav-item">
       <a class="nav-link" href="/family-type">
         <i class="fas fa-first-aid"></i>
         <span>Family Types</span></a>
-    </li>
-    <li class="nav-item">
+    </li> --}}
+    {{-- <li class="nav-item">
       <a class="nav-link" href="/family">
         <i class="fas fa-first-aid"></i>
         <span>Families</span></a>
-    </li>
+    </li> --}}
     <!-- Divider -->
     <hr class="sidebar-divider d-none d-md-block">
     <!-- Sidebar Toggler (Sidebar) -->

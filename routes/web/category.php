@@ -18,5 +18,8 @@ Route::resource('category', 'Category\CategoryController');
 
 // Equipment List
 Route::get('/cat/list', 'Category\CategoryController@lists')->name('category.list');
+
+Route::get('subdiscip/{id}/category', 'Category\CategoryController@subdisc_category')->name('category.discipline');
+Route::get('subdiscip/{id}/category/list', 'Category\CategoryController@subdisc_category_list')->name('category.discipline.list');
 // Equipment List Search
 // Route::get('/project/list/{search}', 'Project\ProjectController@lists');

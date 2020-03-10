@@ -20,6 +20,9 @@
                             <a class="btn btn-info text-white" @click="showCreateSubDiscipline" slot="afterLimit">Add Sub-Discipline</a>
                         </div>
                     </div>
+                    <div slot="name" slot-scope="{row}">
+                            <a href="#" @click="viewSub(row.id)">{{row.name}}</a>
+                        </div>
                     <div class = "btn-group" slot="action" slot-scope="{row}">
                         <a class="btn btn-primary btn-sm text-white" @click="subdisciplineDetail(row.id)"><i class="fas fa-edit"></i></a>
                         <a class="btn btn-danger btn-sm text-white" @click="subdisciplineDelete(row.id)"><i class="fas fa-trash"></i></a>
@@ -44,7 +47,7 @@
         },
         data(){
             return {
-
+                discipline_id : typeof window.id !== 'undefined' ? window.id : null,
                 // for create modal (based on createModalComponent)
                 makeForm: [{
                    
@@ -93,8 +96,10 @@
         methods: {
             fetchList() {
                 let vm = this;
-                console.log(vm.subdiscipline);
-                axios.get('/subdiscip/list')
+                let url = vm.discipline_id != null ? '/discipline/'+vm.discipline_id+'/subdiscip/list' : '/subdiscip/list';
+                // console.log(vm.subdiscipline);
+                // axios.get('/subdiscip/list')
+                axios.get(url)
                 .then( function(r) {
                     vm.subdiscipline = r.data
                     console.log(vm.subdiscipline);
@@ -102,7 +107,10 @@
                 .catch( function (error) {
                     console.log (error);
                 } )
-            }, 
+            },
+            viewSub(id){
+                window.location.href='/subdiscip/'+id+'/category';
+            },
             showCreateSubDiscipline(){
                 console.log(this.makeForm);
                 this.$modal.show('size-modal')

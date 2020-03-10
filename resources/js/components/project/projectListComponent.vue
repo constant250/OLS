@@ -15,18 +15,14 @@
                         <div slot="afterLimit" class="ml-2">
                             <div class="btn-group">
                                 <a href="javascript:void(0)"  @click="showCreateProject" class="btn btn-info" slot="afterLimit"><i class="fas fa-plus"></i> Add Project</a>
-                                <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    Export to
-                                    <span class="sr-only">Toggle Dropdown</span>
-                                </button>
-                                <div class="dropdown-menu dropdown-menu-right">
-                                    <a class="dropdown-item" href="#"><i class="far fa-file-pdf text-danger"></i>&nbsp; PDF</a>
-                                    <a class="dropdown-item" href="#"><i class="far fa-file-excel text-success"></i>&nbsp; Excel (CSV)</a>
-                                </div>
+                                
                             </div>
                         </div>
+                        <div slot="name" slot-scope="{row}">
+                            <a href="#" @click="viewFamilyDiscipline(row.id)">{{row.name}}</a>
+                        </div>
                         <div class="btn-group" slot="actions" slot-scope="{row}">
-                            <a href="javascript:void(0)" class="btn btn-primary btn-sm" @click="equipDetail(row.id)"> <i class="fas fa-edit"> </i></a>
+                            <a href="javascript:void(0)" class="btn btn-primary btn-sm" @click="projectDetail(row.id)"> <i class="fas fa-edit"> </i></a>
                             <a href="javascript:void(0)" class="btn btn-danger btn-sm text-white" @click="removeEquip(row.id)"> <i class="fas fa-trash"> </i></a>
                         </div>
                 </v-client-table>
@@ -144,7 +140,10 @@
             showCreateProject () {
                 this.$modal.show('size-modal')
             },
-            equipDetail (id) {
+            viewFamilyDiscipline(id) {
+                window.location.href = 'project/'+id+'/discipline';
+            },
+            projectDetail (id) {
                 window.location.href = '/project/'+id;
             },
             removeEquip(id) {

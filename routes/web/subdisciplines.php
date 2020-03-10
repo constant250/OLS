@@ -16,7 +16,9 @@ use Illuminate\Http\Request;
 // Resource
 Route::resource('sub-discipline', 'SubDiscipline\SubDisciplineController');
 
-// Equipment List
 Route::get('/subdiscip/list', 'SubDiscipline\SubDisciplineController@lists')->name('sub-discipline.list');
-// Equipment List Search
+
+Route::get('discipline/{id}/subdiscip', 'SubDiscipline\SubDisciplineController@disc_subdisc')->name('sub-discipline.discipline');
+Route::get('discipline/{id}/subdiscip/list', 'SubDiscipline\SubDisciplineController@disc_subdisc_list')->name('sub-discipline.discipline.list');
+
 // Route::get('/project/list/{search}', 'Project\ProjectController@lists');

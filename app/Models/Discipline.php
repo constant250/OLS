@@ -15,7 +15,8 @@ class Discipline extends Model implements AuditableContract
     use Auditable;
 
     protected $fillable = [
-        'name'
+        'name',
+        'project_id'
     ];
 
 public function user()

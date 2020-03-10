@@ -25,6 +25,24 @@ class SubDisciplineController extends Controller
 
         return json_encode($subdiscipline);
     }
+
+    public function disc_subdisc($id){
+
+        \JavaScript::put([
+            'id'=> $id
+        ]);
+
+        return view("sub-disciplines.index");
+
+    }
+
+    public function disc_subdisc_list($id)
+    {
+        $subdiscipline = SubDiscipline::where('discipline_id', null)->orWhere('discipline_id', $id)->orderBy('id', 'desc')->get();
+
+        return json_encode($subdiscipline);
+    }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -54,6 +72,7 @@ class SubDisciplineController extends Controller
             // for edit
                 $subdiscipline = SubDiscipline::where('id', $request->inputs['id'])->first();
                 $subdiscipline->name = $request->inputs['name'];
+                $subdiscipline->discipline_id = $request->id;
                 $subdiscipline->update();
 
             } else {  
@@ -61,6 +80,7 @@ class SubDisciplineController extends Controller
             // for create
             $subdiscipline = new SubDiscipline;
             $subdiscipline->name = $request->inputs['name'];
+            $subdiscipline->discipline_id = $request->id;
             $subdiscipline->user()->associate(\Auth::user());
             $subdiscipline->save();
             }

@@ -132,6 +132,7 @@
         title: this.modalTitle,
         csrfToken: '',
         rowCount: 1,
+        id : typeof window.id !== 'undefined' ? window.id : null,
       }
     },
     created(){
@@ -145,6 +146,7 @@
             let vm = this;
             axios.post(this.saveForm,{
                 inputs: this.inputs,
+                id: this.id,
                 _token: this.csrfToken
             })
             .then(res => {

@@ -59,7 +59,9 @@ class FamilyController extends Controller
             }else{
                 // for create/saving
                 $family = new Family;
-                $family->name = $request->inputs['name'];
+                // $family->name = $request->inputs['name'];
+                // $family->material_code = $request->inputs['material_code'];
+                $family->fill($request->inputs);
                 $family->user()->associate(\Auth::user());
                 $family->save();
             }

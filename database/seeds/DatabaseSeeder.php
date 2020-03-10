@@ -12,5 +12,11 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         // $this->call(UsersTableSeeder::class);
+        \DB::table('sub_disciplines')->insert([
+            'name' => 'BUILD',
+            'discipline_id' => 2,
+            'user_id' => 1,
+            'is_lock' => 1
+        ]);
     }
 }

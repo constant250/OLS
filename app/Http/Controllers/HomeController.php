@@ -49,7 +49,9 @@ class HomeController extends Controller
         $todos = Todo::where('priority_id', 1)->get();
 
         // return specific data based on like
-        $todos = Todo::where('task', '=', 'task')->get();
+        $todos = Todo::where('task', 'like', '%task%')->get();
+
+        dd($todos);
 
         // retrun based on time
         $todos = Todo::where('created_at', '>', '2020-02-10')->where('created_at', '<', date('Y-m-d H:i:s'))->get();
@@ -88,7 +90,7 @@ class HomeController extends Controller
         // $todos = Todo::where('id', 3)->first();
         // $todos->delete();
 
-        dd($todos);
+        
 
         
     }

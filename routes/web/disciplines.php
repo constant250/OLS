@@ -18,5 +18,8 @@ Route::resource('discipline', 'Discipline\DisciplineController');
 
 // Equipment List
 Route::get('/discip/list', 'Discipline\DisciplineController@lists')->name('discipline.list');
+
+Route::get('project/{id}/discipline', 'Discipline\DisciplineController@proj_disc')->name('discipline.project');
+Route::get('project/{id}/discipline/list', 'Discipline\DisciplineController@proj_disc_list')->name('discipline.project.list');
 // Equipment List Search
 // Route::get('/project/list/{search}', 'Project\ProjectController@lists');

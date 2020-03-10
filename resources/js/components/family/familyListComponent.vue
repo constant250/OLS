@@ -48,6 +48,11 @@
                             type: 'text',
                             label: 'Family Name',
                             name: 'name'
+                        },
+                         {
+                            type: 'text',
+                            label: 'Material Code',
+                            name: 'material_code'
                         }
                     ]
                 }],

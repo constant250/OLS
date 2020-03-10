@@ -14,7 +14,8 @@ class Family extends Model implements AuditableContract
     use Auditable;
 
     protected $fillable = [
-        'name'
+        'name',
+        'material_code'
     ];
 
     public function user()

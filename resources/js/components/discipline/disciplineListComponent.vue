@@ -19,9 +19,12 @@
                                 <a class="btn btn-info text-white" @click="showCreateDiscipline" slot="afterLimit">Add Discipline</a>
                             </div>
                         </div>
+                        <div slot="name" slot-scope="{row}">
+                            <a href="#" @click="viewDisciplineSub(row.id)">{{row.name}}</a>
+                        </div>
                         <div class="btn-group" slot="action" slot-scope="{row}">
-                            <a class="btn btn-primary btn-sm text-white" @click="disciplineDetail(row.id)"><i class="fas fa-edit"></i></a>
-                            <a class="btn btn-danger btn-sm text-white" @click="disciplineDelete(row.id)"><i class="fas fa-trash"></i></a>
+                            <a v-if="row.project_id != null" class="btn btn-primary btn-sm text-white" @click="disciplineDetail(row.id)"><i class="fas fa-edit"></i></a>
+                            <a v-if="row.project_id != null" class="btn btn-danger btn-sm text-white" @click="disciplineDelete(row.id)"><i class="fas fa-trash"></i></a>
                         </div>    
                     </v-client-table>
             </div>
@@ -44,6 +47,7 @@
         data() {
             return {
                 //for create modal
+                project_id : typeof window.id !== 'undefined' ? window.id : null,
                 makeForm: [{
                     FormBody : [
                           {
@@ -89,7 +93,8 @@
         methods: {
             fetchList() {
                 let vm=this;
-                axios.get('/discip/list')
+                let url = vm.project_id != null ? '/project/'+vm.project_id+'/discipline/list' : '/discip/list';
+                axios.get(url)
                 .then(function(r){
                     console.log(r.data);
                     vm.disciplines=r.data;
@@ -102,6 +107,9 @@
             showCreateDiscipline() {
                 console.log(this.makeForm),
                 this.$modal.show('size-modal')
+            },
+            viewDisciplineSub(id){
+                window.location.href='/discipline/'+id+'/subdiscip';
             },
             disciplineDetail(id){
                 window.location.href='/discipline/'+id;

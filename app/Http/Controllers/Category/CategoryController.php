@@ -28,6 +28,23 @@ class CategoryController extends Controller
         return json_encode($category);
     }
 
+    public function subdisc_category($id){
+
+        \JavaScript::put([
+            'id'=> $id
+        ]);
+
+        return view("disciplines.index");
+
+    }
+
+    public function subdisc_category_list($id)
+    {
+        $discipline = Category::where('sub_discipline_id', null)->orWhere('sub_discipline_id', $id)->orderBy('id', 'desc')->get();
+
+        return json_encode($discipline);
+    }
+
     /**
      * Show the form for creating a new resource.
      *

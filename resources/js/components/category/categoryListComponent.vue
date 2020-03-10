@@ -44,22 +44,17 @@
         },
         data() {
             return {
-
+                sub_discipline_id : typeof window.id !== 'undefined' ? window.id : null,
                 // for create modal
                 makeForm: [{
 
-                FormBody : [
-                {
-                        type: 'text',
-                        lable: 'Category Name',
-                        name: 'name'
-
-
-                }
-                   
-
-                ]
-
+                    FormBody : [
+                        {
+                                type: 'text',
+                                lable: 'Category Name',
+                                name: 'name'
+                        } 
+                    ]
                 }
                      
                 ],
@@ -101,7 +96,7 @@
         methods: {
             fetchList() {
                 let vm = this;
-
+                let url = vm.sub_discipline_id != null ? '/subdiscip/'+vm.sub_discipline_id+'/category/list' : '/cat/list';
                 axios.get('/cat/list')
                 .then(function (r) {
                     console.log(r.data);
