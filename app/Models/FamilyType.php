@@ -13,7 +13,7 @@ class FamilyType extends Model implements AuditableContract
     use Auditable;
 
     protected $fillable = [
-        'name'
+        'name',
     ];
 
     public function user()

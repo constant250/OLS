@@ -52,12 +52,9 @@
                     FormBody: [{
                         
                         type: 'text',
-                        lable: 'Family Type Name',
-                        name: 'name'
-
-                    
-                    }
-
+                        label: 'Family Type Name',
+                        name: 'name'                   
+                    },
                     ]
                     
                 }],

@@ -35,7 +35,8 @@
                         <div v-else-if="itm['type'] === 'select'">
                             <!-- selectbox -->
                             <div class="form-group">
-                                <label for="agent_type">Status</label>
+                                <label for="agent_type">{{itm['label']}}</label>
+                                <!-- v-if="typeof itm['event']!== 'undefined'" @click="on_click"  -->
                                 <select name="agent_type" class="form-control" v-model="inputs[itm['name']]">
                                     <option v-for="(opt, optKy) in itm['items']" v-bind:key="optKy" v-bind:value="optKy">{{opt}}</option>
                                     
