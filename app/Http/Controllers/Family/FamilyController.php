@@ -132,6 +132,24 @@ class FamilyController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+
+    public function familytype_family($id){
+
+        \JavaScript::put([
+            'id'=> $id
+        ]);
+        return view('family.index');
+
+    }
+
+    public function familytype_family_list($id)
+    {
+        // $familyType = Family::where('family_type_id', null)->orWhere('family_type_id', $id)->orderBy('id', 'desc')->get();
+        $familyType = Family::where('family_type_id', $id)->orderBy('id', 'desc')->get();
+        // dd('test');
+        return json_encode($familyType);
+    }
+
     public function destroy($id)
     {
         //

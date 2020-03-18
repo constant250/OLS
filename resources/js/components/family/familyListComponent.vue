@@ -33,14 +33,17 @@
 <script>
 
     import CreateFamily from './../globals/form/createModalComponent.vue'
+    
 
     export default {
         name:'app-modal',
         components:  {
-            CreateFamily
+            CreateFamily,
         },
         data() {
             return {
+                family_type_id : typeof window.id !== 'undefined' ? window.id : null,
+
                 // for create modal
                 makeForm: [{
                     FormBody : [
@@ -49,10 +52,26 @@
                             label: 'Family Name',
                             name: 'name'
                         },
-                         {
+                        {
                             type: 'text',
                             label: 'Material Code',
                             name: 'material_code'
+                        },
+                        {
+                            type: 'textbox',
+                            label: 'Description',
+                            name: 'description'
+                        },
+                        {
+                            type: 'textbox',
+                            label: 'Specification',
+                            name: 'specification'
+                        },
+                        {
+                            type: 'attachment',
+                            label: 'Attachment',
+                            name: 'family_attachment',
+                            col_size: 12,
                         }
                     ]
                 }],
@@ -91,8 +110,9 @@
         methods: {
             fetchList() {
                 let vm = this;
-                console.log(vm.families);
-                axios.get('/families/list')
+                let url = vm.family_type_id != null ? '/family-type/'+vm.family_type_id+'/family/list' : '/families/list';
+                
+                axios.get(url)
                 .then( function (r) {
                     vm.families = r.data;
                     console.log(vm.families);
@@ -145,7 +165,7 @@
    
 </script>
 
-<style>
+<style scoped>
     td {
         text-align: center;
     }
@@ -160,5 +180,12 @@
         border-right-color: #fff !important;
         border-left-color: #fff !important;
         vertical-align: middle !important;
+    }
+    .v--modal-box{
+            top: 56px !important;
+            left: 10% !important;
+            /* right: 50%; */
+            width: 80% !important;
+            height: auto !important;
     }
 </style>

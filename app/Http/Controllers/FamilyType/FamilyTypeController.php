@@ -20,6 +20,23 @@ class FamilyTypeController extends Controller
         return view('family-types.index');
         //
     }
+
+    public function category_familytype($id){
+
+        \JavaScript::put([
+            'id'=> $id
+        ]);
+
+        return view('family-types.index');
+
+    }
+
+    public function category_familytype_list($id)
+    {
+        $familyType = FamilyType::where('category_id', null)->orWhere('category_id', $id)->orderBy('id', 'desc')->get();
+        // dd('test');
+        return json_encode($familyType);
+    }
     
 
     /**

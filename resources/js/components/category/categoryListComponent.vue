@@ -19,6 +19,9 @@
                                 <a class="btn btn-info text-white" @click="showCreateCategory" slot="afterLimit">Add Category</a>
                             </div>
                         </div>
+                        <div slot="name" slot-scope="{row}">
+                            <a href="#" @click="viewSubCat(row.id)">{{row.name}}</a>
+                        </div>
                         <div class="btn-group" slot="actions" slot-scope="{row}">
                             <a class="btn btn-primary btn-sm text-white" @click=categoryDetail(row.id)><i class="fas fa-edit"></i></a>
                             <a class="btn btn-danger btn-sm text-white" @click="categoryDelete(row.id)"><i class="far fa-trash-alt"></i></a>
@@ -108,7 +111,9 @@
                 })
 
             },
-
+            viewSubCat(id) {
+               window.location.href='/category/'+id+'/family-type';
+            },
             showCreateCategory() {
                 console.log(this.makeForm);
                 this.$modal.show('size-modal')

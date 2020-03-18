@@ -101,6 +101,12 @@
                                 </multiselect>
                             </div>
                         </div>
+                        <div v-else-if="itm['type'] === 'attachment'">
+                            <FamilyAttachment
+                                v-bind:fileTypeValidate="['jpeg','jpg','png', 'pdf']"
+                                v-bind:fileSizeValidate="5000000"
+                            ></FamilyAttachment>
+                        </div>
                     </div>
                 </div>
                 
@@ -114,8 +120,14 @@
 </modal>
 </template>
 <script>
+  import FamilyAttachment from './../FileDragDropInstantComponent.vue';
+
+
   export default {
     name: 'SizeModalProject',
+    components: {
+        FamilyAttachment
+    },
     // props: ['id', 'code', 'name'],
     props : {
             formSettings : Array,

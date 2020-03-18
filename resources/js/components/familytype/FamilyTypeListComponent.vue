@@ -24,7 +24,10 @@
                        <div class="btn-group" slot="action" slot-scope="{row}">
                            <a class="btn btn-primary btn-sm text-white" @click="familytypeDetail(row.id)"><i class="fas fa-pen-nib"></i></a>
                            <a class="btn btn-danger btn-sm text-white" @click="familytypeDelete(row.id)"><i class="fas fa-dumpster"></i></a>
-                   </div>
+                        </div>
+                        <div slot="name" slot-scope="{row}">
+                            <a href="#" @click="viewFamily(row.id)">{{row.name}}</a>
+                        </div>
                    </v-client-table>
             </div>
         </div>
@@ -44,9 +47,7 @@
         },
         data(){
             return{
-
-                
-
+                category_id : typeof window.id !== 'undefined' ? window.id : null,
                 /* for create modal */
                 makeForm: [{
                     FormBody: [{
@@ -95,7 +96,8 @@
         methods: {
             fetchList(){
                 let vm = this;
-                axios.get('/ft/list')
+                let url = vm.category_id != null ? '/category/'+vm.category_id+'/family-type/list' : '/ft/list';
+                axios.get(url)
                 .then( function (r) {
                /*       console.log(r.data); */
                      vm.familytypes = r.data
@@ -106,7 +108,9 @@
                   console.log(r.data);     
                 })
             },
-
+            viewFamily(id) {
+               window.location.href='/family-type/'+id+'/family';
+            },
             showCreateFamilyType(){
                 console.log(this.makeForm);
                 this.$modal.show('size-modal')
